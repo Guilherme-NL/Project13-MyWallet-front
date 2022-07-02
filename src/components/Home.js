@@ -1,20 +1,17 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-//import { Link } from "react-router-dom";
 
-import Login from "./Login";
+import LoginForm from "./LoginForm";
 
 export default function HomeScreen() {
   return (
-    <>
-      <Container>
-        <h1>MyWallet</h1>
-        <Login></Login>
-        <Link to="/Registration" style={{ textDecoration: "none" }}>
-          <p>Primeira vez? Cadastre-se!</p>
-        </Link>
-      </Container>
-    </>
+    <Container>
+      <h1>MyWallet</h1>
+      <LoginForm></LoginForm>
+      <Link to="/registration" style={{ textDecoration: "none" }}>
+        <p>Primeira vez? Cadastre-se!</p>
+      </Link>
+    </Container>
   );
 }
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function LoginForm() {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -14,14 +14,14 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
 
-    const url = "http://localhost:5000";
+    const url = "http://localhost:5000/login";
     const body = { email, password };
 
     axios
       .post(url, body)
       .then(() => {
         setIsLoading(false);
-        navigate("/CapitalBalance");
+        navigate("/CapitalBalanceScreen");
       })
       .catch((err) => {
         alert(err.response.statusText);
