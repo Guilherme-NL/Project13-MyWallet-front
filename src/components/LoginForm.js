@@ -21,7 +21,7 @@ export default function LoginForm() {
       .post(url, body)
       .then(() => {
         setIsLoading(false);
-        navigate("/CapitalBalanceScreen");
+        navigate("/balance");
       })
       .catch((err) => {
         alert(err.response.statusText);
