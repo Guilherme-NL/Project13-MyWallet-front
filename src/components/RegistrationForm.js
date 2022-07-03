@@ -16,20 +16,25 @@ export default function RegistrationForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    const url = "http://localhost:5000/registration";
-    const body = { name, email, password, passwordConfirmation };
+    if (password === passwordConfirmation) {
+      const url = "http://localhost:5000/registration";
+      const body = { name, email, password };
 
-    axios
-      .post(url, body)
-      .then(() => {
-        navigate("/");
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        alert(err.response.statusText);
-        navigate("/registration");
-        setIsLoading(false);
-      });
+      axios
+        .post(url, body)
+        .then(() => {
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Erro ao cadastrar o usuário");
+          setIsLoading(false);
+          navigate("/registration");
+        });
+    } else {
+      alert("As senhas devem ser iguais!");
+      setIsLoading(false);
+    }
   }
 
   return (

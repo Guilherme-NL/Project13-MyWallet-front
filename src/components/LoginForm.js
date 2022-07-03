@@ -2,6 +2,10 @@ import React from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import {
+  useUserData,
+  saveUserDataInLocalStorage,
+} from "../contexts/UserDataContext";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -9,6 +13,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [, setUserData] = useUserData();
 
   function submitLogin(e) {
     e.preventDefault();
@@ -19,7 +24,10 @@ export default function LoginForm() {
 
     axios
       .post(url, body)
-      .then(() => {
+      .then((res) => {
+        setUserData(res.data);
+        saveUserDataInLocalStorage(res.data);
+        console.log(res.data);
         setIsLoading(false);
         navigate("/balance");
       })

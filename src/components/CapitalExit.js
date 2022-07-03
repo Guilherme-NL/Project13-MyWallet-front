@@ -2,9 +2,12 @@ import styled from "styled-components";
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUserData } from "../contexts/UserDataContext";
 
 export default function CapitalExitScreen() {
   const navigate = useNavigate();
+
+  const [{ token }] = useUserData();
 
   const [value, setValue] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -12,11 +15,16 @@ export default function CapitalExitScreen() {
   function submitEntry(e) {
     e.preventDefault();
 
-    const url = "http://localhost:5000/exit";
-    const body = { value, description };
+    const url = "http://localhost:5000/bills";
+    const body = { value: -value, description };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     axios
-      .post(url, body)
+      .post(url, body, config)
       .then(() => {
         navigate("/balance");
       })
@@ -49,7 +57,7 @@ export default function CapitalExitScreen() {
   );
 }
 
-const Container = styled.div`
+const Container = styled.form`
   width: 100%;
   height: 100vh;
   display: flex;
