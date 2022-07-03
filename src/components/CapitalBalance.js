@@ -9,7 +9,7 @@ export default function CapitalBalanceScreen() {
   const [bills, setBills] = React.useState([]);
 
   React.useEffect(() => {
-    const url = "http://localhost:5000/bills";
+    const url = "https://mywallet-project13.herokuapp.com/bills";
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

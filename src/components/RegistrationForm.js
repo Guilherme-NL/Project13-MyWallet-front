@@ -17,7 +17,7 @@ export default function RegistrationForm() {
     setIsLoading(true);
 
     if (password === passwordConfirmation) {
-      const url = "http://localhost:5000/registration";
+      const url = "https://mywallet-project13.herokuapp.com/registration";
       const body = { name, email, password };
 
       axios

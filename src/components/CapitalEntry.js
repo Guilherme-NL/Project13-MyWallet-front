@@ -15,7 +15,7 @@ export default function CapitalEntryScreen() {
   function submitEntry(e) {
     e.preventDefault();
 
-    const url = "http://localhost:5000/bills";
+    const url = "https://mywallet-project13.herokuapp.com/bills";
     const body = { value: +value, description };
     const config = {
       headers: {
