@@ -2,9 +2,12 @@ import styled from "styled-components";
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserData } from "../contexts/UserDataContext";
 
 export default function CapitalBalanceScreen() {
+  const navigate = useNavigate();
+
   const [{ name, token }] = useUserData();
   const [bills, setBills] = React.useState([]);
 
@@ -44,27 +47,51 @@ export default function CapitalBalanceScreen() {
   }, 0);
   console.log(sum);
 
+  function deleteToken() {
+    const url = "https://mywallet-project13.herokuapp.com/sessions";
+    const body = {};
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios
+      .post(url, body, config)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        alert(err.response.statusText);
+      });
+  }
+
   return (
     <Container>
       <Top>
         <h1>Olá, {name}</h1>
-        <Link to="/">
-          <ion-icon name="exit-outline"></ion-icon>
-        </Link>
+        <div>
+          <ion-icon
+            name="exit-outline"
+            onClick={() => deleteToken()}
+          ></ion-icon>
+        </div>
       </Top>
       <Bills>
         {bills.length >= 1 ? (
           <>
             <RenderBills />
-            <Saldo>
-              <p>SALDO</p>
-            </Saldo>
-            <Results total={sum}>{sum}</Results>
           </>
         ) : (
           <EmpityBills />
         )}
       </Bills>
+      <BillsResult>
+        <Saldo>
+          <p>SALDO</p>
+        </Saldo>
+        <Results total={sum}>{sum}</Results>
+      </BillsResult>
       <AddBills>
         <Link to="/entry" style={{ textDecoration: "none" }}>
           <Button>
@@ -107,7 +134,7 @@ const Top = styled.div`
     font-weight: bold;
   }
 
-  ion-icon {
+  div ion-icon {
     font-size: 26px;
     color: #ffffff;
   }
@@ -115,11 +142,21 @@ const Top = styled.div`
 
 const Bills = styled.div`
   width: 100%;
-  height: 80%;
+  height: 70%;
   background-color: #ffffff;
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
   padding: 30px;
-  position: relative;
+  overflow: auto;
+`;
+
+const BillsResult = styled.div`
+  width: 100%;
+  height: 10%;
+  background-color: #ffffff;
+  border-radius: 0 0 5px 5px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Empity = styled.div`
@@ -159,7 +196,6 @@ const Value = styled.p`
 `;
 
 const Saldo = styled.div`
-  position: absolute;
   left: 30px;
   bottom: 30px;
   font-size: 17px;
@@ -167,7 +203,6 @@ const Saldo = styled.div`
 `;
 
 const Results = styled.div`
-  position: absolute;
   right: 30px;
   bottom: 30px;
   font-size: 17px;
@@ -188,7 +223,7 @@ const AddBills = styled.div`
 `;
 
 const Button = styled.div`
-  width: 95%;
+  width: 100%;
   height: 100%;
   background-color: #a328d6;
   border-radius: 5px;
